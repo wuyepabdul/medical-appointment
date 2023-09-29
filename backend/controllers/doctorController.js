@@ -1,17 +1,17 @@
-import User from "../models/UserSchema.js";
+import Doctor from "../models/DoctorSchema.js";
 import bcrypt from "bcryptjs";
 
-export const updateUserController = async (req, res) => {
+export const updateDoctorController = async (req, res) => {
   const id = req.params.id;
-  let userDetails = req.body;
+  let doctorDetails = req.body;
   try {
     const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(userDetails.password, salt);
-    userDetails.password = hashPassword;
+    const hashPassword = await bcrypt.hash(doctorDetails.password, salt);
+    doctorDetails.password = hashPassword;
 
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedDoctor = await Doctor.findByIdAndUpdate(
       id,
-      { $set: userDetails },
+      { $set: doctorDetails },
       { new: true }
     );
 
@@ -19,7 +19,7 @@ export const updateUserController = async (req, res) => {
       success: true,
       statusCode: 201,
       message: "Update Successfully",
-      data: updatedUser,
+      data: updatedDoctor,
     });
   } catch (error) {
     return res.status(500).json({
@@ -30,10 +30,10 @@ export const updateUserController = async (req, res) => {
   }
 };
 
-export const deleteUserController = async (req, res) => {
+export const deleteDoctorController = async (req, res) => {
   const { id } = req.params;
   try {
-    await User.findByIdAndDelete(id);
+    await Doctor.findByIdAndDelete(id);
     return res.status(201).json({
       success: true,
       statusCode: 201,
@@ -48,22 +48,22 @@ export const deleteUserController = async (req, res) => {
   }
 };
 
-export const getSingleUser = async (req, res) => {
+export const getSingleDoctor = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findById(id).select("-password");
-    if (!user) {
+    const doctor = await Doctor.findById(id).select("-password");
+    if (!doctor) {
       return res.status(404).json({
         success: false,
         statusCode: 404,
-        message: "User not found",
+        message: "Doctor not found",
       });
     }
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "User found",
-      data: user,
+      message: "Doctor found",
+      data: doctor,
     });
   } catch (error) {
     res.status(500).json({
@@ -74,14 +74,14 @@ export const getSingleUser = async (req, res) => {
   }
 };
 
-export const getAllUsers = async (req, res) => {
+export const getAllDoctors = async (req, res) => {
   try {
-    const users = await User.find({}).select("-password");
-    if (users.length < 1) {
+    const doctors = await Doctor.find({}).select("-password");
+    if (doctors.length < 1) {
       return res.status(200).json({
         success: true,
         statusCode: 200,
-        message: "No User has been created",
+        message: "No Doctor has been created",
         data: [],
       });
     }
@@ -89,8 +89,8 @@ export const getAllUsers = async (req, res) => {
     return res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "Users found",
-      data: users,
+      message: "Doctors found",
+      data: doctors,
     });
   } catch (error) {
     res.status(500).json({

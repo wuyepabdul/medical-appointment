@@ -5,6 +5,8 @@ import moongoose from "mongoose";
 import dotenv from "dotenv";
 import { dbConnect } from "./dbConnection.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import doctorRoutes from "./routes/doctorRoutes.js";
 
 dotenv.config();
 
@@ -27,6 +29,8 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/doctors", doctorRoutes);
 
 app.listen(port, () => {
   console.log("server listening at " + port);
