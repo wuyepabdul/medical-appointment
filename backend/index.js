@@ -4,6 +4,7 @@ import cors from "cors";
 import moongoose from "mongoose";
 import dotenv from "dotenv";
 import { dbConnect } from "./dbConnection.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ dbConnect();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
+
+app.use("/api/v1/auth", authRoutes);
 
 app.listen(port, () => {
   console.log("server listening at " + port);
