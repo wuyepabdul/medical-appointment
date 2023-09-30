@@ -7,7 +7,7 @@ import { dbConnect } from "./dbConnection.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import doctorRoutes from "./routes/doctorRoutes.js";
-
+import reviewRoutes from "./routes/reviewRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -31,7 +31,7 @@ app.use(cors(corsOptions));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/doctors", doctorRoutes);
-
+app.use("/api/v1/reviews", reviewRoutes);
 app.listen(port, () => {
   console.log("server listening at " + port);
 });
