@@ -5,6 +5,7 @@ import {
   getSingleDoctor,
   updateDoctorController,
 } from "../controllers/doctorController.js";
+import { authenticate, restrict } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
 
@@ -12,8 +13,13 @@ router.get("/:id", getSingleDoctor);
 
 router.get("/", getAllDoctors);
 
-router.put("/:id", updateDoctorController);
+router.put("/:id", authenticate, restrict(["doctor"]), updateDoctorController);
 
-router.delete("/:id", deleteDoctorController);
+router.delete(
+  "/:id",
+  authenticate,
+  restrict(["doctor"]),
+  deleteDoctorController
+);
 
 export default router;
