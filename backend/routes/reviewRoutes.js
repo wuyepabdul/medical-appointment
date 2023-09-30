@@ -5,7 +5,8 @@ import {
 } from "../controllers/reviewController.js";
 import { authenticate, restrict } from "../middlewares/verifyToken.js";
 
-const router = express.Router();
+//enable access to doctor's id
+const router = express.Router({ mergeParams: true }); // this makes sure that parameters from the parent routes are accessisble in the nested routes
 
 router
   .route("/")

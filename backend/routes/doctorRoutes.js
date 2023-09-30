@@ -7,7 +7,12 @@ import {
 } from "../controllers/doctorController.js";
 import { authenticate, restrict } from "../middlewares/verifyToken.js";
 
+import reviewRouter from "./reviewRoutes.js";
+
 const router = express.Router();
+
+// nested route
+router.use("/:doctorId/reviews", reviewRouter);
 
 router.get("/:id", getSingleDoctor);
 
