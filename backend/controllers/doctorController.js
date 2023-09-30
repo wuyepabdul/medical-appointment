@@ -76,7 +76,22 @@ export const getSingleDoctor = async (req, res) => {
 
 export const getAllDoctors = async (req, res) => {
   try {
-    const doctors = await Doctor.find({}).select("-password");
+    const { query } = req.query;
+    let doctors;
+
+    if (query) {
+      doctors = await Doctor.find({
+        isApproved: "approved",
+        $or: [
+          { name: { $regex: query, $options: "i" } },
+          { specialization: { $regex: query, $options: "i" } },
+        ],
+      }).select("-password");
+    } else {
+      doctors = await Doctor.find({ isApproved: "approved" }).select(
+        "-password"
+      );
+    }
     if (doctors.length < 1) {
       return res.status(200).json({
         success: true,
@@ -93,7 +108,8 @@ export const getAllDoctors = async (req, res) => {
       data: doctors,
     });
   } catch (error) {
-    res.status(500).json({
+    console.log(error.message);
+    return res.status(500).json({
       success: false,
       statusCode: 500,
       message: "Server Error",
