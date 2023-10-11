@@ -21,6 +21,7 @@ app.get("/api", (req, res) => {
   res.send("Welcome to medicare API");
 });
 
+
 dbConnect();
 
 // middleware
